@@ -19,6 +19,11 @@ public class Member {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @OneToOne
+    @JoinColumn(name = "locker_id")
+    private Locker locker;
+
+    // 양쪽에 편의 메서드를 생성하지 말고 한 쪽에만 생성
     public void setTeam(Team team){
         this.team = team;
         team.getMembers().add(this);
