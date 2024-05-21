@@ -1,38 +1,31 @@
 package hellojpa;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
-@NoArgsConstructor
-@Data
-@SequenceGenerator(name = "MEMBER_SEQ_GENERATOR",
-                    sequenceName = "MEMBER_SEQ",
-                    initialValue = 1, allocationSize = 50)
+@Getter @Setter
 public class Member {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO,
-                    generator = "MEMBER_SEQ_GENERATOR")
+    @Id @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "name")
     private String username;
 
-    private Integer age;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    public void setTeam(Team team){
+        this.team = team;
+        team.getMembers().add(this);
+    }
 
-    private LocalDate testLocalDate;
-
-    private LocalDateTime testLocalDateTime;
-
-    @Lob
-    private String description;
+//    외래키로 참조, 연관관계 매핑 x
+//    @Column(name = "team_id")
+//    private Long teamId;
 
 }
