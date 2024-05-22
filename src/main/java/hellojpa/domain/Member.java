@@ -1,4 +1,4 @@
-package hellojpa;
+package hellojpa.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-public class Member {
+public class Member extends BaseEntity{
 
     @Id @GeneratedValue
     @Column(name = "member_id")
@@ -15,13 +15,11 @@ public class Member {
 
     private String username;
 
-    @ManyToOne
+    // 지연로딩(LAZY) = 프록시로 가져오게 된다. 팀을 호출하는 순간 프록시 초기화되서 select team이 나간다.
+    // 즉시로딩(EAGER) = member를 조회하는 순간 팀도 같이 조인해서 가져온다.
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
-
-    @OneToOne
-    @JoinColumn(name = "locker_id")
-    private Locker locker;
 
     // 양쪽에 편의 메서드를 생성하지 말고 한 쪽에만 생성
     public void setTeam(Team team){
