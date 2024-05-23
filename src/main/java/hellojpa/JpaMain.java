@@ -1,8 +1,7 @@
 package hellojpa;
 
-import hellojpa.domain.Child;
+import hellojpa.domain.Address;
 import hellojpa.domain.Member;
-import hellojpa.domain.Parent;
 import hellojpa.domain.Team;
 
 import javax.persistence.EntityManager;
@@ -18,23 +17,90 @@ public class JpaMain {
 
 
         tx.begin();
-//        em.createNativeQuery("DROP TABLE IF EXISTS Movie").executeUpdate();
-//        em.createNativeQuery("DROP TABLE IF EXISTS Book").executeUpdate();
-//        em.createNativeQuery("DROP TABLE IF EXISTS Album").executeUpdate();
-//        em.createNativeQuery("DROP TABLE IF EXISTS Item").executeUpdate();
-//        em.createNativeQuery("DROP TABLE IF EXISTS MEMBER ").executeUpdate();
-//        em.createNativeQuery("DROP TABLE IF EXISTS TEAM ").executeUpdate();
-
         try {
-            Child child1 = new Child();
-            Child child2 = new Child();
 
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("city","street","zipcode"));
 
-            em.persist(parent);
-//            cascade.ALL 사용시 나머지도 자동 persist 해준다.
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
+
+            member.getAddressHistory().add(new Address("city1","street1","zipcode1"));
+            member.getAddressHistory().add(new Address("city2","street2","zipcode2"));
+
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            System.out.println("============================");
+            Member findMember = em.find(Member.class, member.getId());
+//            findMember.setHomeAddress(new Address("newCity",findMember.getHomeAddress().getStreet(), findMember.getHomeAddress().getZipcode()));
+//
+//            findMember.getFavoriteFoods().remove("치킨");
+//            findMember.getFavoriteFoods().add("한식");
+
+            findMember.getAddressHistory().remove(new Address("city1","street1","zipcode1"));
+            findMember.getAddressHistory().add(new Address("city1_1","street1_1","zipcode1_1"));
+
+
+            // 따라서 값을 복사해서 사용해야한다.!!!!, setter를 만들어 놓지 말 것!!!!
+//            Address address = new Address("city","street","zipcode");
+//
+//            Member member1 = new Member();
+//            member1.setUsername("member1");
+//            member1.setHomeAddress(address);
+//            em.persist(member1);
+//
+//            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+//
+//            Member member2 = new Member();
+//            member2.setUsername("member2");
+//            member2.setHomeAddress(copyAddress);
+//            em.persist(member2);
+//
+//            member1.getHomeAddress().setCity("newCity");
+
+
+
+
+
+
+//            임베디드는 값 타입이기 때문에 엔티티끼리 공유하게 되면 값이 모두 변경이 된다.!!!!!!!
+//            Address address = new Address("city","street","zipcode");
+//
+//            Member member1 = new Member();
+//            member1.setUsername("member1");
+//            member1.setHomeAddress(address);
+//            em.persist(member1);
+//
+//            Member member2 = new Member();
+//            member2.setUsername("member2");
+//            member2.setHomeAddress(address);
+//            em.persist(member2);
+//
+//            member1.getHomeAddress().setCity("newCity");
+
+
+//            Child child1 = new Child();
+//            Child child2 = new Child();
+//
+//            Parent parent = new Parent();
+//            parent.addChild(child1);
+//            parent.addChild(child2);
+//
+//            em.persist(parent);
+//
+//            em.flush();
+//            em.clear();
+//
+//            Parent findParent = em.find(Parent.class, 1L);
+//            findParent.getChildList().remove(0);
+
+
+//          cascade.ALL 사용시 나머지도 자동 persist 해준다.
 //            em.persist(child1);
 //            em.persist(child2);
 
