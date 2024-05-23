@@ -1,6 +1,5 @@
 package hellojpa;
 
-import hellojpa.domain.Address;
 import hellojpa.domain.Member;
 import hellojpa.domain.Team;
 
@@ -19,31 +18,43 @@ public class JpaMain {
         tx.begin();
         try {
 
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setHomeAddress(new Address("city","street","zipcode"));
 
-            member.getFavoriteFoods().add("치킨");
-            member.getFavoriteFoods().add("족발");
-            member.getFavoriteFoods().add("피자");
 
-            member.getAddressHistory().add(new Address("city1","street1","zipcode1"));
-            member.getAddressHistory().add(new Address("city2","street2","zipcode2"));
 
-            em.persist(member);
 
-            em.flush();
-            em.clear();
 
-            System.out.println("============================");
-            Member findMember = em.find(Member.class, member.getId());
+            // JPQL, native query
+//            List<Member> resultList = em.createQuery("select m from Member m where m.username like '%kim%'", Member.class).getResultList();
+//            em.createNativeQuery("select MEMBER_ID from Member").getSingleResult();
+
+
+
+
+//            Member member = new Member();
+//            member.setUsername("member1");
+//            member.setHomeAddress(new Address("city","street","zipcode"));
+//
+//            member.getFavoriteFoods().add("치킨");
+//            member.getFavoriteFoods().add("족발");
+//            member.getFavoriteFoods().add("피자");
+//
+//            member.getAddressHistory().add(new Address("city1","street1","zipcode1"));
+//            member.getAddressHistory().add(new Address("city2","street2","zipcode2"));
+//
+//            em.persist(member);
+//
+//            em.flush();
+//            em.clear();
+//
+//            System.out.println("============================");
+//            Member findMember = em.find(Member.class, member.getId());
 //            findMember.setHomeAddress(new Address("newCity",findMember.getHomeAddress().getStreet(), findMember.getHomeAddress().getZipcode()));
 //
 //            findMember.getFavoriteFoods().remove("치킨");
 //            findMember.getFavoriteFoods().add("한식");
 
-            findMember.getAddressHistory().remove(new Address("city1","street1","zipcode1"));
-            findMember.getAddressHistory().add(new Address("city1_1","street1_1","zipcode1_1"));
+//            findMember.getAddressHistory().remove(new Address("city1","street1","zipcode1"));
+//            findMember.getAddressHistory().add(new Address("city1_1","street1_1","zipcode1_1"));
 
 
             // 따라서 값을 복사해서 사용해야한다.!!!!, setter를 만들어 놓지 말 것!!!!
